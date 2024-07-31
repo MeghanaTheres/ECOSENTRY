@@ -1,0 +1,62 @@
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+ #map {
+    height: 60%;
+    width: 70%;
+    border: 10px solid lightseagreen;
+    margin: 0 auto;
+  }
+  
+  #firebaseDataDisplay {
+    width: 20%;
+    background-color: white;
+    color: black; /* Text color for better readability within the black box */
+    padding: 10px; /* Adjust padding as desired */
+    border: 1px solid black; /* Optional white border for visual separation */
+    font-family: sans-serif; /* Adjust font family as desired */
+    margin: 0 auto;
+  }
+  
+  /* 
+   * Optional: Makes the sample page fill the window. 
+   */
+  html,
+  body {
+    height: 110%;
+    margin: 0;
+    padding: 0;
+    background-color: #5f983972;
+
+  }
+  h1{
+    text-align: center;
+  }
+  #request-accept{
+    margin-left: 47%;
+  }
+  #details-box {
+    border: 5px solid black;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    max-height: 200px; /* Set a maximum height for the details box */
+    max-width: 500px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin: auto;
+  }
+  
+  #details-box h2 {
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+  
+  #details-box p {
+    margin-bottom: 5px;
+  }
+  
+  #details-box strong {
+    font-weight: bold;
+  }

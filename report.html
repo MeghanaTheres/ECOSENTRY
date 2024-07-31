@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Submission</title>
+    <link rel="stylesheet" href="try.css">
+
+</head>
+<body>
+  <div class="container">
+    <!--aside section start -->
+    <aside>
+      <!-- Top starts-->
+     <div class="top">
+      <div class="logo">
+        <img src="./images/logo.png" alt="EcoSentry" style="height: 100px;">
+    
+      </div>
+      <div class="close" id="close_btn">
+        <span class="material-symbols-sharp"> close </span>
+      </div>
+     </div>
+      <!-- Top ends-->
+     <div class="sidebar">
+      <a href="try.html">
+        <span class="material-symbols-sharp">home</span>
+        <h3> Home</h3>
+      </a>
+      <a href="#" class="active">
+        <span class="material-symbols-sharp">Notifications</span>
+        <h3> Notifications </h3>
+      </a>
+      <a href="report.html">
+        <span class="material-symbols-sharp">Report</span>
+        <h3> Report</h3>
+      </a>
+      <a href="#">
+        <span class="material-symbols-sharp">Settings</span>
+        <h3>Settings</h3>
+      </a>
+      <a href="#">
+        <span class="material-symbols-sharp">History</span>
+        <h3> Report History</h3>
+      </a>
+      <a href="index.html">
+        <span class="material-symbols-sharp">Logout</span>
+        <h3> Logout</h3>
+      </a>
+     </div>
+    </aside>
+    <div class="report-form">
+        <h2>Submit a Report</h2>
+        <form id="reportForm">
+          <label for="reportImage">Upload Image:</label>
+          <input type="file" id="reportImage" name="reportImage" accept="image/*" required>
+    
+          <label for="reportLocation">Location:</label>
+          <input type="text" id="reportLocation" name="reportLocation" placeholder="Enter location" required>
+    
+          <label for="reportDescription">Description:</label>
+          <textarea id="reportDescription" name="reportDescription" rows="4" placeholder="Enter description"></textarea>
+    
+          <button type="submit" id="submitReport">Submit Report</button>
+        </form>
+        <div id="submissionMessage"></div>
+      </div>
+     
+      <script src="script1.js"></script>
+   </div> 
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Image Display</title>
+  <style>
+    img{
+        height: 200px;
+        width: 200px;
+        border: 2px black solid;
+    }
+  </style>
+</head>
+<body>
+  <label>image name</label><input type="text" id="namebox"><label id="extlab"></label><br><br>
+  <img id="myimg"><label id="upprogress"></label><br><br>
+  <button id="selbtn">select image</button>
+
+  <button id="upbtn">upload image</button>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    import { getStorage,ref as sRef , uploadBytesResumable , getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD7JhxQ-wX9AoqKg4D5OWGwaglQESI2idI",
+      authDomain: "login-e95d7.firebaseapp.com",
+      databaseURL: "https://login-e95d7-default-rtdb.firebaseio.com",
+      projectId: "login-e95d7",
+      storageBucket: "login-e95d7.appspot.com",
+      messagingSenderId: "394564238855",
+      appId: "1:394564238855:web:92cda1322dc249e01f34a2",
+      measurementId: "G-X2CMQ2RGKW"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    var files = [];
+    var reader = new FileReader();
+    var namebox = document.getElementById('namebox');
+    var extlab = document.getElementById('extlab');
+    var myimg = document.getElementById('myimg');
+    var proglab = document.getElementById('upprogress');
+    var selbtn = document.getElementById('selbtn');
+    var upbtn = document.getElementById('upbtn');
+
+    var input = document.createElement('input');
+    input.type='file';
+    input.onchange = e =>{
+        files = e.target.files;
+        var extention = GetFileExt(files[0]);
+        var name = GetFileName(files[0]);
+        namebox.value=name;
+        extlab.innerHTML = extention;
+        reader.readAsDataURL(files[0]);
+    }
+    reader.onload = function(){
+        myimg.src = reader.result;
+    }
+
+
+    selbtn.onclick = function(){
+        input.click();
+
+    }
+    function GetFileExt(file){
+        var temp = file.name.split('.');
+        var ext = temp.slice((temp.length-1),(temp.length));
+        return '.'+ext[0];
+
+    }
+    function GetFileName(file){
+        var temp = file.name.split('.');
+        var fname = temp.slice(0,-1).join('.');
+        return fname;
+    }
+    async function UploadProcess(){
+        var ImgToUpload = files[0];
+        var ImgName = namebox.value + extlab.innerHTML;
+        const metaData = {
+            contentType: ImgToUpload.type
+        }
+        const storage = getStorage();
+        const storageRef = sRef(storage,"myimages/"+ImgName);
+        const UploadTask = uploadBytesResumable(storageRef, ImgToUpload, metaData);
+        UploadTask.on('state-changed',(snapshot)=>{
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            proglab.innerHTML = "Upload"+progress+"%";
+
+        },
+        (error)=>{
+            alert("error image not uploaded");
+
+        },
+        ()=>{
+            getDownloadURL(UploadTask.snapshot.ref).then((downloadURL)=>{
+                console.log(downloadURL);
+                
+            });
+        }
+        );
+    
+    }
+    async function getAllLocationKeys() {
+        const database = getDatabase();
+        const userLocationRef = ref(database, "users/location");
+      
+        // Get a snapshot of all child nodes under "users/location"
+        const snapshot = await get(userLocationRef);
+        if (snapshot.exists()) {
+          const keys = Object.keys(snapshot.val()); // Get all keys as an array
+          return keys;
+        } else {
+          console.log("No keys found in users/location");
+          return []; // Return empty array if no keys exist
+        }
+      }
+    
+    upbtn.onclick = UploadProcess;
+   </script>
+</body>
+</html>

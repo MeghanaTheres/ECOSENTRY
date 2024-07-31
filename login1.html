@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+    <!-- <link rel="stylesheet" href="LoginTrial.css"> -->
+    <link rel="stylesheet" href="SignUpPage_styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+    </style>
+</head>
+<body>
+    <div class="MainFrame">
+        <h1>User Login</h1>
+        <form id="MainForm">
+                <h2 class="EmailText">Email-ID</h2>
+                <input type="email" name="emailid" id="emailid">
+                <h2 class="CreatePass">password</h2>
+                <input type="password" name="Password" id="Pass">
+        </form>
+        <br>
+        <br>
+        <a href="try.html"><button type="submit" id="regUser">login</button></a>
+        <a href="register.html"><button type="button">Sign Up</button></a>
+    </div>
+
+    <script type="module">
+         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase , get , ref , child } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        import { getAuth , signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyD7JhxQ-wX9AoqKg4D5OWGwaglQESI2idI",
+          authDomain: "login-e95d7.firebaseapp.com",
+          databaseURL: "https://login-e95d7-default-rtdb.firebaseio.com",
+          projectId: "login-e95d7",
+          storageBucket: "login-e95d7.appspot.com",
+          messagingSenderId: "394564238855",
+          appId: "1:394564238855:web:92cda1322dc249e01f34a2",
+          measurementId: "G-X2CMQ2RGKW"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const auth = getAuth(app);
+        const dbref = ref(db);
+
+        let EmailID = document.getElementById('emailid');
+        let Password = document.getElementById('Pass');
+
+        let SignInUser = evt =>{
+            evt.preventDefault();
+
+            signInWithEmailAndPassword(auth,EmailID.value,Password.value)
+            .then((credentials)=>{
+                get(child(dbref,'UserAuthList/'+ credentials.user.uid)).then((snapshot)=>{
+                    if(snapshot.exists){
+                        sessionStorage.setItem("user-info",JSON.stringify({
+                            firstname: snapshot.val().firstname,
+                            lastname: snapshot.val().lastname
+                        }))
+                        sessionStorage.setItem("user-creds",JSON.stringify(credentials.user));
+                        window.location.href = 'try.html';
+                    }
+                })
+            })
+            .catch((error)=>{
+                alert(error.message)
+                console.log(error.code)
+                console.log(error.message)
+            })
+        }
+
+        regUser.addEventListener('click',SignInUser);
+    </script>
+</body>
+</html>

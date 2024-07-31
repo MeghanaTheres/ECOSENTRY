@@ -1,0 +1,29 @@
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+ #map {
+  height: 60%;
+  width: 70%;
+  border: 10px solid lightseagreen;
+  margin: 0 auto;
+}
+ h1{
+  text-align: center;
+ }
+ #button_container{
+  margin-left: 47%;
+ }
+  /* 
+   * Optional: Makes the sample page fill the window. 
+   */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #5f983972;
+}
+#image-upload{
+  margin-left: 35%;
+}
